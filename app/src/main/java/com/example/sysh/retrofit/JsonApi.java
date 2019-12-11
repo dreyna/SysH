@@ -3,6 +3,7 @@ package com.example.sysh.retrofit;
 
 
 import com.example.sysh.entity.Alumno;
+import com.example.sysh.entity.Aula;
 
 import java.util.List;
 
@@ -31,4 +32,15 @@ public interface JsonApi {
     //Eliminar Alumno
     @DELETE("delete/{id}")
     Call<Alumno> deleteAlumno(@Path("id") int id);
+
+    //--AULA--//
+    @GET("listar")
+    Call<List<Aula>> getAula();
+    @POST("create")
+    Call<Aula> addAula(@Body Aula au);
+    @PUT("update/{id}")
+    Call<Aula> updateAula(@Path("id") int id, @Body Aula au);
+    @DELETE("delete/{id}")
+    Call<Aula> deleteAula(@Path("id") int id);
+    //--AULA--//
 }

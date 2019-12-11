@@ -6,4 +6,8 @@ public class APIUtils implements Urls {
     public static JsonApi getAlumnoService(){
         return RetrofitClient.getClient(URL).create(JsonApi.class);
     }
+    public static JsonApi getAulaService(){
+        return RetrofitClient.getClient(URL).create(JsonApi.class);
+    }
+
 }

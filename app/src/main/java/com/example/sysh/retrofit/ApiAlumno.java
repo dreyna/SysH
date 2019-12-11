@@ -15,7 +15,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
-public interface JsonApi {
+public interface ApiAlumno {
     //Listar Alumnos
     @GET("listar")
     Call<List<Alumno>> getAlumnos();
@@ -33,14 +33,4 @@ public interface JsonApi {
     @DELETE("delete/{id}")
     Call<Alumno> deleteAlumno(@Path("id") int id);
 
-    //--AULA--//
-    @GET("listar")
-    Call<List<Aula>> getAula();
-    @POST("create")
-    Call<Aula> addAula(@Body Aula au);
-    @PUT("update/{id}")
-    Call<Aula> updateAula(@Path("id") int id, @Body Aula au);
-    @DELETE("delete/{id}")
-    Call<Aula> deleteAula(@Path("id") int id);
-    //--AULA--//
 }

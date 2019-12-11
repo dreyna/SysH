@@ -18,6 +18,9 @@ public class Usuario {
     @Expose
     private String clave;
 
+    public Usuario() {
+    }
+
     public Usuario(int idusuario, int idempleado, String nomuser, String clave) {
         this.idusuario = idusuario;
         this.idempleado = idempleado;

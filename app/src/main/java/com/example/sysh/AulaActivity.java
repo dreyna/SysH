@@ -22,7 +22,8 @@ import com.example.sysh.entity.Aula;
 import com.example.sysh.listener.OnDeleteClickListener;
 import com.example.sysh.listener.OnUpdateClickListener;
 import com.example.sysh.retrofit.APIUtils;
-import com.example.sysh.retrofit.JsonApi;
+import com.example.sysh.retrofit.ApiAlumno;
+import com.example.sysh.retrofit.ApiAula;
 import com.example.sysh.retrofit.Urls;
 
 import java.util.ArrayList;
@@ -32,10 +33,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AulaActivity extends AppCompatActivity implements Urls, OnUpdateClickListener, OnDeleteClickListener {
+public class AulaActivity extends AppCompatActivity implements Urls{
     private RecyclerView recyclerView;
     private AdapterAula adapter;
-    private JsonApi jsonApi;
+    private ApiAula jsonApi;
     private List<Aula> lista;
 
     @Override
@@ -63,14 +64,19 @@ public class AulaActivity extends AppCompatActivity implements Urls, OnUpdateCli
                 List<Aula> lista = response.body();
                 adapter = new AdapterAula(lista, AulaActivity.this);
                 recyclerView.setAdapter(adapter);
-                initListener();
+                //initListener();
             }
             @Override
             public void onFailure(Call<List<Aula>> call, Throwable t) {
 
             }
         });
-        }
+    }/*
+    private void initListener() {
+        adapter.setOnDeleteClickListener(this);
+        adapter.setOnUpdateClickListener(this);
+    }
+
     private void doDelete(final int position, int id) {
         Call<Aula> call = jsonApi.deleteAula(id);
         call.enqueue(new Callback<Aula>() {
@@ -137,18 +143,14 @@ public class AulaActivity extends AppCompatActivity implements Urls, OnUpdateCli
             public void onClick(View v) {
                 Aula a = new Aula(au.getIdaula(),
                         mNombre.getText().toString(),
-                        mCapacidad.getText().toString(),
-                        mTipo.getText().toString(),
-                        dialog.dismiss();
+                        Integer.parseInt(mCapacidad.getText().toString()),
+                        mTipo.getText().toString());
                 updateData(a);
                 listarAula();
             }
         });
     }
-    private void initListener() {
-        adapter.setOnDeleteClickListener(this);
-        adapter.setOnUpdateClickListener(this);
-    }
+
     private void updateData(Aula au) {
         int id = au.getIdaula();
         Call<Aula> call = jsonApi.updateAula(id, au);
@@ -173,7 +175,7 @@ public class AulaActivity extends AppCompatActivity implements Urls, OnUpdateCli
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
         return true;
-}
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -184,6 +186,7 @@ public class AulaActivity extends AppCompatActivity implements Urls, OnUpdateCli
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
         private void add(){
             final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
             View view = getLayoutInflater().inflate(R.layout.modificar_aula, null);
@@ -209,9 +212,8 @@ public class AulaActivity extends AppCompatActivity implements Urls, OnUpdateCli
                 @Override
                 public void onClick(View v) {
                     Aula aula = new Aula(
-                            0,mID.getText().toString(),
-                            mNombre.getText().toString(),
-                            mCapacidad.getText().toString(),
+                            0,mNombre.getText().toString(),
+                            Integer.parseInt(mCapacidad.getText().toString()),
                             mTipo.getText().toString());
                     dialog.dismiss();
                     addAula(aula);
@@ -235,6 +237,6 @@ public class AulaActivity extends AppCompatActivity implements Urls, OnUpdateCli
                 }
             });
         }
-    }
+*/
 }
 

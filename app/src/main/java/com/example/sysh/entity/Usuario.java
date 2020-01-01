@@ -14,18 +14,18 @@ public class Usuario {
     @SerializedName("nomuser")
     @Expose
     private String nomuser;
-    @SerializedName("clave")
+    @SerializedName("password")
     @Expose
-    private String clave;
+    private String password;
 
     public Usuario() {
     }
 
-    public Usuario(int idusuario, int idempleado, String nomuser, String clave) {
+    public Usuario(int idusuario, int idempleado, String nomuser, String password) {
         this.idusuario = idusuario;
         this.idempleado = idempleado;
         this.nomuser = nomuser;
-        this.clave = clave;
+        this.password = password;
     }
 
     public int getIdusuario() {
@@ -52,11 +52,11 @@ public class Usuario {
         this.nomuser = nomuser;
     }
 
-    public String getClave() {
-        return clave;
+    public String getPassword() {
+        return password;
     }
 
-    public void setClave(String clave) {
-        this.clave = clave;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

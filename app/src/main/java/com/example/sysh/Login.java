@@ -13,14 +13,20 @@ import android.widget.Toast;
 import com.example.sysh.entity.Usuario;
 import com.example.sysh.retrofit.APIUtils;
 import com.example.sysh.retrofit.ApiUsuario;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class Login extends AppCompatActivity {
     private EditText edt1, edt2;
@@ -38,56 +44,38 @@ public class Login extends AppCompatActivity {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //loginUser();
-                Intent intent = new Intent(Login.this,PrincipalActivity.class);
-                startActivity(intent);
+                loginUser();
               }
         });
     }
     private void loginUser() {
-        //Toast.makeText(getApplicationContext(),"hola",Toast.LENGTH_SHORT).show();
-        Usuario user = new Usuario(0,0,edt1.getText().toString(), edt2.getText().toString());
-
-        Call<Usuario> call = apiUsuario.validarUsuario(user);
+        String username, password;
+        username = edt1.getText().toString().trim();
+        password = edt2.getText().toString().trim();
+        Call<Usuario> call = apiUsuario.validarUsuario(new Usuario(0,0,username,password));
         call.enqueue(new Callback<Usuario>() {
             @Override
             public void onResponse(Call<Usuario> call, Response<Usuario> response) {
-                if (response.code() == 200)
-                    Toast.makeText(getApplicationContext(),"Si",Toast.LENGTH_SHORT).show();
-                /*
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        Toast.makeText(getApplicationContext(),"david: ",Toast.LENGTH_SHORT).show();
-                        Log.i("onSuccess", response.body().toString());
-                        String jsonresponse = response.body().toString();
-                        parseLoginData(jsonresponse);
-
-                    } else {
-                        Log.i("onEmptyResponse", "Returned empty response");//Toast.makeText(getContext(),"Nothing returned",Toast.LENGTH_LONG).show();
-                    }
+                Usuario user1 = response.body();
+                if(user1!=null) {
+                     parseLoginData(user1);
                 }else{
-                    Toast.makeText(getApplicationContext(),"hola"+edt1.getText().toString(),Toast.LENGTH_SHORT).show();
-                }*/
+                    Toast.makeText(getApplicationContext(), "Datos Incorrectos", Toast.LENGTH_SHORT).show();
+                }
             }
-
             @Override
             public void onFailure(Call<Usuario> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Error: "+edt1.getText().toString(),Toast.LENGTH_SHORT).show();
+                Log.e("Error:",t.toString());
             }
         });
     }
-    private void parseLoginData(String response){
+    private void parseLoginData(Usuario user){
         try {
-            JSONObject jsonObject = new JSONObject(response);
-            if (jsonObject.getString("status").equals("true")) {
-                //saveInfo(response);
                 Toast.makeText(Login.this, "Login Successfully!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Login.this,PrincipalActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 this.finish();
-            }
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
